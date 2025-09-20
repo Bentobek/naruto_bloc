@@ -4,3 +4,4 @@ part of 'api_bloc.dart';
 sealed class ApiEvent {}
 
 final class GetAkatsukiEvent extends ApiEvent{}
+final class GetDataStorage extends ApiEvent{}

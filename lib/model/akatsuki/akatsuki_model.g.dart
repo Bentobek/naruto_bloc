@@ -9,10 +9,12 @@ part of 'akatsuki_model.dart';
 AkatsukiModel _$AkatsukiModelFromJson(Map<String, dynamic> json) =>
     AkatsukiModel(
       name: json['name'] as String,
-      images: (json['images'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
+      images:
+          (json['images'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$AkatsukiModelToJson(AkatsukiModel instance) =>
-    <String, dynamic>{'name': instance.name, 'images': instance.images};
+    <String, dynamic>{
+      'name': instance.name,
+      'images': instance.images,
+    };

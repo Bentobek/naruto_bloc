@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:naruto_bloc/screens/home_screen.dart';
 
+import 'model/characters/characters_model.dart';
 
-void main() {
-runApp(MaterialApp(
-debugShowCheckedModeBanner: false,
-home: HomeScreen(),
-));
+
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(CharactersModelAdapter());
+  Hive.registerAdapter(DebutAdapter());
+  Hive.registerAdapter(FamilyAdapter());
+
+
+    runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(),
+    ));
 }
 

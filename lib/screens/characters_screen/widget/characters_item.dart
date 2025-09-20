@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naruto_bloc/app_theme/app_colors.dart';
@@ -23,7 +24,7 @@ class CharacterItem extends StatelessWidget {
               final item = list[index];
 
               return Card(
-                margin: EdgeInsets.only(bottom: AppDimens.d16),
+                margin: const EdgeInsets.only(bottom: AppDimens.d16),
                 elevation: 4,
                 child: Padding(
                   padding: const EdgeInsets.all(AppDimens.d16),
@@ -31,8 +32,8 @@ class CharacterItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (item.images.isNotEmpty)
-                        Image.network(
-                          item.images.first,
+                        CachedNetworkImage(
+                          imageUrl:  item.images.first,
                           height: AppDimens.imageHeight,
                           width: double.infinity,
                           fit: BoxFit.cover,
@@ -43,20 +44,14 @@ class CharacterItem extends StatelessWidget {
                           width: double.infinity,
                           color: AppColors.grey,
                           child: const Icon(
-                              Icons.person,
-                              size: AppDimens.d80,
-                              color:  AppColors.grey
+                            Icons.person,
+                            size: AppDimens.d80,
+                            color: AppColors.grey,
                           ),
                         ),
                       const SizedBox(height: AppDimens.d12),
-
-                      Text(
-                        item.name,
-                        style:AppTextStyles.title
-                      ),
+                      Text(item.name, style: AppTextStyles.title),
                       const SizedBox(height: AppDimens.d12),
-
-
                       Text('Debut:', style: TextStyle(fontWeight: FontWeight.bold)),
                       Text('Manga: ${item.debut?.manga}'),
                       Text('Anime: ${item.debut?.anime}'),
@@ -65,10 +60,9 @@ class CharacterItem extends StatelessWidget {
                       Text('Game: ${item.debut?.game}'),
                       Text('OVA: ${item.debut?.ova}'),
                       const SizedBox(height: AppDimens.d12),
-
                       Text('Jutsu:', style: TextStyle(fontWeight: FontWeight.bold)),
+                      if (item.jutsu?.isNotEmpty ?? false)
                         Text('- ${item.jutsu!.first}'),
-
                       if (item.family != null) ...[
                         Text('Family:', style: TextStyle(fontWeight: FontWeight.bold)),
                         if (item.family!.father != null) Text('Father: ${item.family!.father}'),
@@ -85,7 +79,7 @@ class CharacterItem extends StatelessWidget {
               );
             },
           );
-        } else if (state is CharactersError) {
+        } else if (state is Error) {
           return Center(child: Text(state.message));
         }
         return const SizedBox();
@@ -93,5 +87,3 @@ class CharacterItem extends StatelessWidget {
     );
   }
 }
-
-

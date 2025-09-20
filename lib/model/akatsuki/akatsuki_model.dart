@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 part 'akatsuki_model.g.dart';
 
@@ -14,3 +16,11 @@ class AkatsukiModel {
 
 
 }
+String parseToJson(List<AkatsukiModel> list){
+
+  List<Map<String, dynamic>> objectMaps = list.map((obj)=>_$AkatsukiModelToJson(obj)).toList();
+  String jsonString = json.encode(objectMaps);
+
+  return jsonString;
+}
+

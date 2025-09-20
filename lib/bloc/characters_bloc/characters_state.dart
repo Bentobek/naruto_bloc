@@ -1,18 +1,26 @@
 part of 'characters_bloc.dart';
 
 @immutable
-sealed class CharactersState {}
-
+abstract class CharactersState extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 final class CharactersInitial extends CharactersState {}
 
-final class Loading extends CharactersState {}
+class Loading extends CharactersState {}
 
-final class Success extends CharactersState {
+class Success extends CharactersState {
   final List<CharactersModel> list;
+  Success(this.list);
 
-  Success({required this.list});
+  @override
+  List<Object?> get props => [list];
 }
-class CharactersError extends CharactersState {
+
+class Error extends CharactersState {
   final String message;
-  CharactersError(this.message);
+  Error(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }

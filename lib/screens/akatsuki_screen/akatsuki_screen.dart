@@ -1,16 +1,20 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naruto_bloc/app_theme/app_colors.dart';
 import 'package:naruto_bloc/app_theme/app_dimens.dart';
 import 'package:naruto_bloc/app_theme/app_text_style.dart';
 import 'package:naruto_bloc/bloc/akatsuki_bloc/api_bloc.dart';
+import 'package:naruto_bloc/model/akatsuki/akatsuki_model.dart';
+import 'package:naruto_bloc/storage/shared_pref/pref_helper.dart';
 
 class AkatsukiScreen extends StatelessWidget {
   const AkatsukiScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final bloc = ApiBloc()..add(GetAkatsukiEvent());
+    final bloc = ApiBloc()..add(GetDataStorage());
+    final prefHelper = PrefHelper();
 
     return Scaffold(
         body: SafeArea(
@@ -19,6 +23,12 @@ class AkatsukiScreen extends StatelessWidget {
             builder: (context,state){
               if(state is Success){
                 final list =  state.akatsukiList;
+                final json = parseToJson(list);
+                Future.sync(() async {
+                  await prefHelper.saveMyObject(json);
+                  final listFromStorage = await prefHelper.loadMyObject();
+                  print(listFromStorage);
+                });
                 return Padding(
                   padding: const EdgeInsets.all(AppDimens.d8),
                   child: ListView.separated(
@@ -43,10 +53,12 @@ class AkatsukiScreen extends StatelessWidget {
                   ),
                 );
               }else{
+
                 return Center(
                   child: CircularProgressIndicator(),
                 );
               }
+
             }
           )
       ),
@@ -54,7 +66,7 @@ class AkatsukiScreen extends StatelessWidget {
   }
   List<Widget> listImages (List<String> images) {
     final list = images.map((url) {
-      return Image.network(url);
+      return CachedNetworkImage(imageUrl: url);
     });
     return list.toList();
   }
