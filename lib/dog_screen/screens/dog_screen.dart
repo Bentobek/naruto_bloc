@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:naruto_bloc/dog_screen/cubit/dog_cubit.dart';
@@ -64,50 +63,4 @@ class _DogScreenState extends State<DogScreen> {
       ),
     );
   }
-
-  Widget _buildImage({required String item,required GlobalKey dragKey}) {
-    return LongPressDraggable<String>(
-      data: item,
-      dragAnchorStrategy: pointerDragAnchorStrategy,
-      feedback: DraggingListItem(
-        dragKey: dragKey,
-        child: Image.network(item,fit: BoxFit.fitWidth,
-            height: 100,
-            width: double.infinity),
-      ),
-      child: Image.network(item,fit: BoxFit.fitWidth,
-          height: 100,
-          width: double.infinity)
-    );
-  }
 }
-class DraggingListItem extends StatelessWidget {
-  const DraggingListItem({
-    super.key,
-    required this.dragKey,
-    required this.child,
-  });
-
-  final GlobalKey dragKey;
-  final Widget child ;
-
-  @override
-  Widget build(BuildContext context) {
-    return FractionalTranslation(
-      translation: const Offset(-0.5, -0.5),
-      child: ClipRRect(
-        key: dragKey,
-        borderRadius: BorderRadius.circular(12),
-        child: SizedBox(
-          height: 150,
-          width: MediaQuery.of(context).size.width,
-          child: Opacity(
-            opacity: 0.85,
-            child: child,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
