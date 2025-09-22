@@ -17,13 +17,18 @@ class CharacterItem extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         } else if (state is Success) {
           final list = state.list;
-          return ListView.builder(
-            padding: const EdgeInsets.all(AppDimens.d16),
-            itemCount: list.length,
-            itemBuilder: (context, index) {
-              final item = list[index];
+          return ReorderableListView.builder(
+              itemCount: list.length,
+              onReorder: (oldIndex, newIndex) {
+                context.read<CharactersBloc>().add(
+                  ReorderCharactersEvent(oldIndex, newIndex),
+                );
+              },
+              itemBuilder: (context, index) {
+                final item = list[index];
 
               return Card(
+                key: ValueKey(item.id),
                 margin: const EdgeInsets.only(bottom: AppDimens.d16),
                 elevation: 4,
                 child: Padding(
@@ -77,8 +82,7 @@ class CharacterItem extends StatelessWidget {
                   ),
                 ),
               );
-            },
-          );
+               });
         } else if (state is Error) {
           return Center(child: Text(state.message));
         }

@@ -12,3 +12,8 @@ class AddCharacters extends CharactersEvent {
   final List<CharactersModel> characters;
   AddCharacters(this.characters);
 }
+class ReorderCharactersEvent extends CharactersEvent {
+  final int oldIndex;
+  final int newIndex;
+  ReorderCharactersEvent(this.oldIndex, this.newIndex);
+}

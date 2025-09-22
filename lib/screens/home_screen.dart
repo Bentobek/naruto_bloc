@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:naruto_bloc/app_theme/app_colors.dart';
+import 'package:naruto_bloc/dog_screen/screens/dog_screen.dart';
 
 import 'akatsuki_screen/akatsuki_screen.dart';
 import 'characters_screen/characters_screen.dart';
@@ -17,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = const [
     CharactersScreen(),
     AkatsukiScreen(),
+    DogScreen(),
   ];
 
   @override
@@ -40,7 +42,11 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.house),
               label: 'Akatsuki'
-          )
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.airline_seat_recline_normal),
+              label: 'Dogs'
+          ),
         ],
       ),
     );

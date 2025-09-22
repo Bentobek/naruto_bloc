@@ -16,6 +16,7 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
       : super(Loading()) {
     on<GetCharactersEvent>(_onLoadCharacters);
     on<AddCharacters>(_onAddCharacters);
+    on<ReorderCharactersEvent>(_onReorderCharacters);
   }
 
   Future<void> _onLoadCharacters(
@@ -40,5 +41,24 @@ class CharactersBloc extends Bloc<CharactersEvent, CharactersState> {
       AddCharacters event, Emitter<CharactersState> emit) async {
     await hiveHelper.addCharacters(event.characters);
     add(GetCharactersEvent());
+  }
+
+  Future<void> _onReorderCharacters(
+      ReorderCharactersEvent event, Emitter<CharactersState> emit) async {
+    try {
+      final list = await hiveHelper.getCharacters();
+
+      int newIndex = event.newIndex;
+      if (newIndex > event.oldIndex) newIndex--;
+
+      final item = list.removeAt(event.oldIndex);
+      list.insert(newIndex, item);
+
+      await hiveHelper.addCharacters(list);
+
+      emit(Success(List.from(list)));
+    } catch (e) {
+      emit(Error("Failed to load items $e"));
+    }
   }
 }
