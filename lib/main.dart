@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:naruto_bloc/dog_screen/screens/dog_screen.dart';
 import 'package:naruto_bloc/screens/home_screen.dart';
 
 import 'model/characters/characters_model.dart';
